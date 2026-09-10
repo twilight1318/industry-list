@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industrial Assist - Government Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="brand">
+            <div class="brand-icon">IA</div>
+            <div>
+                <h2>Industrial Assist</h2>
+                <span>Government Portal</span>
+            </div>
+        </div>
+
+        <nav class="nav">
+            <button class="nav-item active" onclick="showSection('dashboard', this)">
+                <span>⌂</span> Dashboard
+            </button>
+
+            <button class="nav-item" onclick="showSection('applications', this)">
+                <span>▣</span> Applications
+            </button>
+
+            <button class="nav-item" onclick="showSection('documents', this)">
+                <span>▤</span> Document Verification
+            </button>
+
+            <button class="nav-item" onclick="showSection('inspections', this)">
+                <span>◷</span> Inspections
+            </button>
+
+            <button class="nav-item" onclick="showSection('sla', this)">
+                <span>◈</span> SLA & Delays
+            </button>
+
+            <button class="nav-item" onclick="showSection('grievances', this)">
+                <span>⚑</span> Grievances
+            </button>
+
+            <button class="nav-item" onclick="showSection('reports', this)">
+                <span>▥</span> Reports
+            </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="officer-mini">
+                <div class="avatar" id="sidebarAvatar">GO</div>
+                <div>
+                    <strong id="sidebarOfficerName">Government Officer</strong>
+                    <small id="sidebarOfficerId">Officer</small>
+                </div>
+            </div>
+
+            <button class="logout-btn" onclick="logout()">
+                ↪ Logout
+            </button>
+        </div>
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <div class="top-left">
+                <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+
+                <div>
+                    <h1 id="pageTitle">Government Dashboard</h1>
+                    <p id="pageSubtitle">
+                        Manage business approvals, verification and inspections
+                    </p>
+                </div>
+            </div>
+
+            <div class="top-right">
+
+                <button class="notification-btn" onclick="toggleNotifications()">
+                    🔔
+                    <span id="notificationBadge" class="notification-badge">0</span>
+                </button>
+
+                <div class="notification-panel" id="notificationPanel">
+                    <div class="notification-header">
+                        <strong>Notifications</strong>
+                        <button onclick="markAllNotificationsRead()">Mark all read</button>
+                    </div>
+                    <div id="notificationList"></div>
+                </div>
+
+                <div class="officer-profile">
+                    <div class="avatar" id="topAvatar">GO</div>
+                    <div>
+                        <strong id="topOfficerName">Government Officer</strong>
+                        <small id="topOfficerId">Officer</small>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+
+
+        <!-- CONTENT -->
+        <section class="content">
+
+            <!-- DASHBOARD -->
+            <section id="dashboard" class="page-section active">
+
+                <div class="welcome-card">
+                    <div>
+                        <span class="eyebrow">OFFICER CONTROL CENTER</span>
+                        <h2>Government Approval Dashboard</h2>
+                        <p>
+                            Review applications submitted by businesses,
+                            verify documents, manage inspections and monitor SLA.
+                        </p>
+                    </div>
+
+                    <div class="welcome-icon">🏛️</div>
+                </div>
+
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+                        <div class="stat-icon blue">▣</div>
+                        <div>
+                            <span>Total Applications</span>
+                            <strong id="statApplications">0</strong>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon orange">◷</div>
+                        <div>
+                            <span>Pending Verification</span>
+                            <strong id="statVerification">0</strong>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon purple">⚙</div>
+                        <div>
+                            <span>Inspections</span>
+                            <strong id="statInspections">0</strong>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon red">!</div>
+                        <div>
+                            <span>SLA Delayed</span>
+                            <strong id="statDelayed">0</strong>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon green">✓</div>
+                        <div>
+                            <span>Approved</span>
+                            <strong id="statApproved">0</strong>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon yellow">⚑</div>
+                        <div>
+                            <span>Open Grievances</span>
+                            <strong id="statGrievances">0</strong>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-grid">
+
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <div>
+                                <h3>Recent Applications</h3>
+                                <p>Latest applications received from businesses</p>
+                            </div>
+
+                            <button class="text-btn" onclick="showSectionById('applications')">
+                                View All →
+                            </button>
+                        </div>
+
+                        <div id="recentApplications"></div>
+                    </div>
+
+
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <div>
+                                <h3>Pending Actions</h3>
+                                <p>Items requiring officer attention</p>
+                            </div>
+                        </div>
+
+                        <div id="pendingActions"></div>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- APPLICATIONS -->
+            <section id="applications" class="page-section">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">BUSINESS SUBMISSIONS</span>
+                        <h2>Applications</h2>
+                        <p>All applications submitted through the Business Portal.</p>
+                    </div>
+
+                    <div class="heading-actions">
+                        <input
+                            type="search"
+                            id="applicationSearch"
+                            class="search-input"
+                            placeholder="Search business or application..."
+                            oninput="renderApplications()"
+                        >
+
+                        <select id="applicationStatusFilter" onchange="renderApplications()">
+                            <option value="all">All Status</option>
+                            <option value="Application Received">Application Received</option>
+                            <option value="Document Verification">Document Verification</option>
+                            <option value="Changes Requested">Changes Requested</option>
+                            <option value="Inspection Scheduled">Inspection Scheduled</option>
+                            <option value="Inspection Completed">Inspection Completed</option>
+                            <option value="Final Review">Final Review</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div id="applicationsTable"></div>
+                </div>
+
+            </section>
+
+
+            <!-- DOCUMENTS -->
+            <section id="documents" class="page-section">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">DOCUMENT CONTROL</span>
+                        <h2>Document Verification</h2>
+                        <p>Verify documents submitted with business applications.</p>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div id="documentApplications"></div>
+                </div>
+
+            </section>
+
+
+            <!-- INSPECTIONS -->
+            <section id="inspections" class="page-section">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">FIELD OPERATIONS</span>
+                        <h2>Inspections</h2>
+                        <p>Schedule and complete business inspections.</p>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div id="inspectionsList"></div>
+                </div>
+
+            </section>
+
+
+            <!-- SLA -->
+            <section id="sla" class="page-section">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">SERVICE LEVEL MONITORING</span>
+                        <h2>SLA & Delays</h2>
+                        <p>Monitor application deadlines and delayed approvals.</p>
+                    </div>
+                </div>
+
+                <div class="sla-summary">
+                    <div class="sla-box">
+                        <span>On Track</span>
+                        <strong id="slaOnTrack">0</strong>
+                    </div>
+
+                    <div class="sla-box">
+                        <span>Due Soon</span>
+                        <strong id="slaDueSoon">0</strong>
+                    </div>
+
+                    <div class="sla-box danger">
+                        <span>Delayed</span>
+                        <strong id="slaDelayed">0</strong>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div id="slaList"></div>
+                </div>
+
+            </section>
+
+
+            <!-- GRIEVANCES -->
+            <section id="grievances" class="page-section">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">PUBLIC SERVICE</span>
+                        <h2>Grievances</h2>
+                        <p>Review and respond to grievances submitted by businesses.</p>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div id="grievancesList"></div>
+                </div>
+
+            </section>
+
+
+            <!-- REPORTS -->
+            <section id="reports" class="page-section">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">ANALYTICS</span>
+                        <h2>Reports</h2>
+                        <p>Overview of approval and compliance performance.</p>
+                    </div>
+                </div>
+
+                <div class="reports-grid">
+
+                    <div class="report-card">
+                        <span>Total Applications</span>
+                        <strong id="reportTotal">0</strong>
+                    </div>
+
+                    <div class="report-card">
+                        <span>Approved</span>
+                        <strong id="reportApproved">0</strong>
+                    </div>
+
+                    <div class="report-card">
+                        <span>Rejected</span>
+                        <strong id="reportRejected">0</strong>
+                    </div>
+
+                    <div class="report-card">
+                        <span>Pending</span>
+                        <strong id="reportPending">0</strong>
+                    </div>
+
+                </div>
+
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Approval Summary</h3>
+                            <p>Current status distribution</p>
+                        </div>
+                    </div>
+
+                    <div id="reportStatusList"></div>
+                </div>
+
+            </section>
+
+        </section>
+
+    </main>
+</div>
+
+
+<!-- APPLICATION MODAL -->
+<div class="modal-overlay" id="applicationModal">
+    <div class="modal large-modal">
+
+        <div class="modal-header">
+            <div>
+                <span class="eyebrow">APPLICATION REVIEW</span>
+                <h2 id="modalApplicationTitle">Application</h2>
+            </div>
+
+            <button class="close-btn" onclick="closeModal('applicationModal')">×</button>
+        </div>
+
+        <div id="applicationModalBody"></div>
+
+    </div>
+</div>
+
+
+<!-- DOCUMENT MODAL -->
+<div class="modal-overlay" id="documentModal">
+    <div class="modal document-modal">
+
+        <div class="modal-header">
+            <div>
+                <span class="eyebrow">DOCUMENT</span>
+                <h2 id="documentModalTitle">Document</h2>
+            </div>
+
+            <button class="close-btn" onclick="closeModal('documentModal')">×</button>
+        </div>
+
+        <div id="documentModalBody"></div>
+
+    </div>
+</div>
+
+
+<!-- INSPECTION MODAL -->
+<div class="modal-overlay" id="inspectionModal">
+    <div class="modal">
+
+        <div class="modal-header">
+            <div>
+                <span class="eyebrow">INSPECTION</span>
+                <h2>Schedule Inspection</h2>
+            </div>
+
+            <button class="close-btn" onclick="closeModal('inspectionModal')">×</button>
+        </div>
+
+        <form id="inspectionForm" onsubmit="saveInspection(event)">
+
+            <input type="hidden" id="inspectionApplicationId">
+
+            <label>
+                Inspection Date
+                <input type="date" id="inspectionDate" required>
+            </label>
+
+            <label>
+                Inspection Time
+                <input type="time" id="inspectionTime" required>
+            </label>
+
+            <label>
+                Officer Notes
+                <textarea
+                    id="inspectionNotes"
+                    rows="4"
+                    placeholder="Enter inspection instructions or notes..."
+                ></textarea>
+            </label>
+
+            <div class="modal-actions">
+                <button type="button" class="secondary-btn" onclick="closeModal('inspectionModal')">
+                    Cancel
+                </button>
+
+                <button type="submit" class="primary-btn">
+                    Schedule Inspection
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+<!-- GRIEVANCE MODAL -->
+<div class="modal-overlay" id="grievanceModal">
+    <div class="modal">
+
+        <div class="modal-header">
+            <div>
+                <span class="eyebrow">GRIEVANCE</span>
+                <h2>Update Grievance</h2>
+            </div>
+
+            <button class="close-btn" onclick="closeModal('grievanceModal')">×</button>
+        </div>
+
+        <form id="grievanceForm" onsubmit="saveGrievance(event)">
+
+            <input type="hidden" id="grievanceId">
+
+            <label>
+                Status
+                <select id="grievanceStatus" required>
+                    <option value="Under Review">Under Review</option>
+                    <option value="Resolved">Resolved</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+            </label>
+
+            <label>
+                Officer Response
+                <textarea
+                    id="grievanceResponse"
+                    rows="5"
+                    placeholder="Enter response to business..."
+                    required
+                ></textarea>
+            </label>
+
+            <div class="modal-actions">
+                <button type="button" class="secondary-btn" onclick="closeModal('grievanceModal')">
+                    Cancel
+                </button>
+
+                <button type="submit" class="primary-btn">
+                    Update Grievance
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+<div id="toastContainer" class="toast-container"></div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

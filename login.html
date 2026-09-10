@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Industrial Assist - Login</title>
+
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+
+<div class="login-page">
+
+    <div class="login-card">
+
+        <!-- LOGO -->
+
+        <div class="logo-box">
+            IA
+        </div>
+
+        <h1>
+            Industrial Assist
+        </h1>
+
+        <p class="subtitle">
+            AI-Powered Industrial Compliance & Approval Assistant
+        </p>
+
+
+        <!-- ================= PORTAL SELECTION ================= -->
+
+        <div id="portalSelection">
+
+            <h2>
+                Select Portal
+            </h2>
+
+            <p class="section-text">
+                Choose your authorized portal to continue.
+            </p>
+
+
+            <button
+                class="portal-btn"
+                onclick="selectPortal('business')"
+            >
+
+                <span class="portal-icon">
+                    🏢
+                </span>
+
+                <span>
+                    <strong>
+                        Business Portal
+                    </strong>
+
+                    <small>
+                        Apply for approvals & manage compliance
+                    </small>
+                </span>
+
+            </button>
+
+
+            <button
+                class="portal-btn"
+                onclick="selectPortal('government')"
+            >
+
+                <span class="portal-icon">
+                    🏛️
+                </span>
+
+                <span>
+                    <strong>
+                        Government Portal
+                    </strong>
+
+                    <small>
+                        Review & process business applications
+                    </small>
+                </span>
+
+            </button>
+
+        </div>
+
+
+        <!-- ================= BUSINESS AUTH ================= -->
+
+        <div
+            id="businessAuth"
+            class="auth-section hidden"
+        >
+
+            <button
+                class="back-btn"
+                onclick="backToPortals()"
+            >
+                ← Back
+            </button>
+
+
+            <h2>
+                Business Portal
+            </h2>
+
+            <p class="section-text">
+                Create an account or sign in to continue.
+            </p>
+
+
+            <!-- BUSINESS AUTH TABS -->
+
+            <div class="auth-tabs">
+
+                <button
+                    id="businessSignInTab"
+                    class="auth-tab active"
+                    onclick="showBusinessMode('signin')"
+                >
+                    Sign In
+                </button>
+
+                <button
+                    id="businessCreateTab"
+                    class="auth-tab"
+                    onclick="showBusinessMode('create')"
+                >
+                    Create Account
+                </button>
+
+            </div>
+
+
+            <!-- BUSINESS SIGN IN -->
+
+            <form
+                id="businessSignInForm"
+                onsubmit="businessSignIn(event)"
+            >
+
+                <label>
+                    Gmail / Email
+
+                    <input
+                        type="email"
+                        id="businessLoginEmail"
+                        placeholder="yourname@gmail.com"
+                        required
+                    >
+
+                </label>
+
+
+                <label>
+                    Password
+
+                    <input
+                        type="password"
+                        id="businessLoginPassword"
+                        placeholder="Enter your password"
+                        required
+                    >
+
+                </label>
+
+
+                <button
+                    type="submit"
+                    class="login-btn"
+                >
+                    Sign In
+                </button>
+
+
+                <button
+                    type="button"
+                    class="google-btn"
+                    onclick="demoGoogleLogin()"
+                >
+                    <span>G</span>
+                    Continue with Google
+                </button>
+
+            </form>
+
+
+            <!-- BUSINESS CREATE ACCOUNT -->
+
+            <form
+                id="businessCreateForm"
+                class="hidden"
+                onsubmit="createBusinessAccount(event)"
+            >
+
+                <label>
+                    Full Name
+
+                    <input
+                        type="text"
+                        id="businessFullName"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+                </label>
+
+
+                <label>
+                    Gmail / Email
+
+                    <input
+                        type="email"
+                        id="businessCreateEmail"
+                        placeholder="yourname@gmail.com"
+                        required
+                    >
+
+                </label>
+
+
+                <label>
+                    Password
+
+                    <input
+                        type="password"
+                        id="businessCreatePassword"
+                        placeholder="Create a password"
+                        minlength="8"
+                        required
+                    >
+
+                </label>
+
+
+                <label>
+                    Confirm Password
+
+                    <input
+                        type="password"
+                        id="businessConfirmPassword"
+                        placeholder="Confirm your password"
+                        minlength="8"
+                        required
+                    >
+
+                </label>
+
+
+                <button
+                    type="submit"
+                    class="login-btn"
+                >
+                    Create Business Account
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ================= GOVERNMENT AUTH ================= -->
+
+        <div
+            id="governmentAuth"
+            class="auth-section hidden"
+        >
+
+            <button
+                class="back-btn"
+                onclick="backToPortals()"
+            >
+                ← Back
+            </button>
+
+
+            <h2>
+                Government Portal
+            </h2>
+
+            <p class="section-text">
+                Authorized Government Officers only.
+            </p>
+
+
+            <div class="security-notice">
+                🔐 Government Portal
+                <br>
+                <small>
+                    Only authorized officer accounts can sign in.
+                    New Government accounts cannot be created here.
+                </small>
+            </div>
+
+
+            <form
+                id="governmentLoginForm"
+                onsubmit="governmentLogin(event)"
+            >
+
+                <label>
+                    Officer ID
+
+                    <input
+                        type="text"
+                        id="governmentOfficerId"
+                        placeholder="Example: GOV-1001"
+                        autocomplete="username"
+                        required
+                    >
+
+                </label>
+
+
+                <label>
+                    Password
+
+                    <input
+                        type="password"
+                        id="governmentPassword"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </label>
+
+
+                <button
+                    type="submit"
+                    class="login-btn"
+                >
+                    Government Officer Sign In
+                </button>
+
+            </form>
+
+
+            <div class="authorized-note">
+                <strong>
+                    Authorized Officers
+                </strong>
+
+                <p>
+                    Government access is restricted to
+                    registered officer credentials.
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- MESSAGE -->
+
+        <div
+            id="loginMessage"
+            class="login-message"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<!-- OTP MODAL -->
+
+<div
+    id="otpModal"
+    class="otp-overlay hidden"
+>
+
+    <div class="otp-card">
+
+        <button
+            class="otp-close"
+            onclick="closeOtpModal()"
+        >
+            ×
+        </button>
+
+
+        <div class="otp-icon">
+            ✓
+        </div>
+
+
+        <h2>
+            Verify Your Account
+        </h2>
+
+
+        <p>
+            A demo verification OTP has been generated
+            for your new Business account.
+        </p>
+
+
+        <div
+            id="demoOtpDisplay"
+            class="demo-otp"
+        >
+            ------
+        </div>
+
+
+        <input
+            type="text"
+            id="otpInput"
+            class="otp-input"
+            placeholder="Enter 6-digit OTP"
+            maxlength="6"
+            inputmode="numeric"
+        >
+
+
+        <button
+            class="login-btn"
+            onclick="verifyBusinessOtp()"
+        >
+            Verify Account
+        </button>
+
+    </div>
+
+</div>
+
+
+<script src="login.js"></script>
+
+</body>
+</html>

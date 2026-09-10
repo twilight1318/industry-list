@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Industrial Assist - Business Portal</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Background -->
+    <video autoplay muted loop playsinline id="backgroundVideo">
+        <source src="../background.mp4" type="video/mp4">
+    </video>
+
+    <div class="video-overlay"></div>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">🏭</div>
+
+            <div>
+                <h2>Industrial Assist</h2>
+                <span>Business Portal</span>
+            </div>
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <button class="nav-item active" data-section="dashboard">
+                <span>📊</span>
+                Dashboard
+            </button>
+
+            <button class="nav-item" data-section="approvals">
+                <span>📋</span>
+                Find Approvals
+            </button>
+
+            <button class="nav-item" data-section="documents">
+                <span>📁</span>
+                Documents
+            </button>
+
+            <button class="nav-item" data-section="compliance">
+                <span>✅</span>
+                Compliance
+            </button>
+
+            <button class="nav-item" data-section="schemes">
+                <span>💰</span>
+                Schemes
+            </button>
+
+            <button class="nav-item" data-section="applications">
+                <span>📝</span>
+                My Applications
+            </button>
+
+            <button class="nav-item" data-section="inspections">
+                <span>🔎</span>
+                Inspections
+            </button>
+
+            <button class="nav-item" data-section="grievances">
+                <span>⚠️</span>
+                Grievances
+            </button>
+
+            <button class="nav-item" data-section="settings">
+                <span>⚙️</span>
+                Settings
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <button class="logout-button" onclick="logout()">
+                🚪 Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <button class="mobile-menu" onclick="toggleSidebar()">
+                ☰
+            </button>
+
+
+            <div class="page-title">
+                <h1 id="pageTitle">Dashboard</h1>
+                <p id="pageSubtitle">
+                    Manage your industrial approvals and compliance
+                </p>
+            </div>
+
+
+            <div class="topbar-actions">
+
+                <!-- NOTIFICATION -->
+
+                <div class="notification-wrapper">
+
+                    <button
+                        class="notification-button"
+                        id="notificationButton"
+                        onclick="toggleNotifications()"
+                        aria-label="Notifications"
+                    >
+
+                        🔔
+
+                        <span
+                            class="notification-count"
+                            id="notificationCount"
+                        >
+                            0
+                        </span>
+
+                    </button>
+
+
+                    <div
+                        class="notification-panel hidden"
+                        id="notificationPanel"
+                    >
+
+                        <div class="notification-header">
+
+                            <div>
+                                <h3>Notifications</h3>
+                                <span id="notificationSummary">
+                                    No new notifications
+                                </span>
+                            </div>
+
+                            <button
+                                onclick="markAllNotificationsRead()"
+                                class="mark-read-button"
+                            >
+                                Mark all read
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            class="notification-list"
+                            id="notificationList"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- USER -->
+
+                <div class="user-profile">
+
+                    <div class="user-avatar" id="userAvatar">
+                        B
+                    </div>
+
+                    <div>
+                        <strong id="topUserName">
+                            Business User
+                        </strong>
+
+                        <small>
+                            Business Account
+                        </small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ========================= -->
+        <!-- DASHBOARD -->
+        <!-- ========================= -->
+
+        <section class="content-section active" id="dashboard">
+
+            <div class="welcome-card">
+
+                <div>
+                    <span class="eyebrow">
+                        BUSINESS PORTAL
+                    </span>
+
+                    <h2>
+                        Welcome back,
+                        <span id="welcomeName">
+                            Business User
+                        </span> 👋
+                    </h2>
+
+                    <p>
+                        Manage approvals, documents, inspections
+                        and compliance from one place.
+                    </p>
+                </div>
+
+                <div class="welcome-icon">
+                    🏭
+                </div>
+
+            </div>
+
+
+            <!-- STATS -->
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon blue">📋</div>
+
+                    <div>
+                        <span>Total Applications</span>
+                        <strong id="totalApplications">0</strong>
+                    </div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">⏳</div>
+
+                    <div>
+                        <span>Pending</span>
+                        <strong id="pendingApplications">0</strong>
+                    </div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">🔎</div>
+
+                    <div>
+                        <span>Inspections</span>
+                        <strong id="inspectionApplications">0</strong>
+                    </div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-icon green">✓</div>
+
+                    <div>
+                        <span>Approved</span>
+                        <strong id="approvedApplications">0</strong>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- AI -->
+
+            <div class="ai-card">
+
+                <div class="ai-icon">
+                    🤖
+                </div>
+
+                <div class="ai-content">
+
+                    <span class="eyebrow">
+                        AI ASSISTANT
+                    </span>
+
+                    <h3>
+                        Have a doubt?
+                    </h3>
+
+                    <p>
+                        Ask about approvals, documents,
+                        inspections, timelines or schemes.
+                    </p>
+
+                    <div class="ai-input">
+
+                        <input
+                            type="text"
+                            id="aiQuestion"
+                            placeholder="Ask your question..."
+                            onkeydown="handleAIKey(event)"
+                        >
+
+                        <button onclick="askAI()">
+                            Ask
+                        </button>
+
+                    </div>
+
+                    <div id="aiAnswer"></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RECENT -->
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Recent Applications</h2>
+                    <p>Your latest approval applications</p>
+                </div>
+
+                <button
+                    class="outline-button"
+                    onclick="navigateTo('applications')"
+                >
+                    View All
+                </button>
+
+            </div>
+
+
+            <div id="recentApplications"></div>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- APPROVALS -->
+        <!-- ========================= -->
+
+        <section class="content-section" id="approvals">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Find Approvals</h2>
+                    <p>Find approvals required for your business</p>
+                </div>
+
+            </div>
+
+
+            <div class="filter-bar">
+
+                <input
+                    type="text"
+                    id="approvalSearch"
+                    placeholder="Search approvals..."
+                    oninput="renderApprovals()"
+                >
+
+                <select
+                    id="approvalCategory"
+                    onchange="renderApprovals()"
+                >
+                    <option value="all">All Categories</option>
+                    <option value="labour">Labour</option>
+                    <option value="environment">Environment</option>
+                    <option value="safety">Safety</option>
+                    <option value="trade">Trade</option>
+                    <option value="factory">Factory</option>
+                </select>
+
+            </div>
+
+
+            <div
+                class="approval-grid"
+                id="approvalGrid"
+            ></div>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- DOCUMENTS -->
+        <!-- ========================= -->
+
+        <section class="content-section" id="documents">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Documents</h2>
+                    <p>Upload and manage your business documents</p>
+                </div>
+
+            </div>
+
+
+            <div class="upload-card">
+
+                <div class="upload-icon">
+                    📄
+                </div>
+
+                <h3>Upload Document</h3>
+
+                <p>
+                    Add certificates, registrations,
+                    identity proofs and other required documents.
+                </p>
+
+                <label class="upload-button">
+
+                    + Choose File
+
+                    <input
+                        type="file"
+                        id="documentInput"
+                        onchange="uploadDocument(event)"
+                        hidden
+                    >
+
+                </label>
+
+            </div>
+
+
+            <div
+                class="document-list"
+                id="documentList"
+            ></div>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- COMPLIANCE -->
+        <!-- ========================= -->
+
+        <section class="content-section" id="compliance">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Compliance</h2>
+                    <p>Monitor your compliance requirements</p>
+                </div>
+
+            </div>
+
+
+            <div class="compliance-card">
+
+                <div class="compliance-icon">
+                    ✅
+                </div>
+
+                <div>
+                    <h3>Compliance Checklist</h3>
+
+                    <p>
+                        Keep your approvals and documents
+                        up to date to avoid delays.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div id="complianceList"></div>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- SCHEMES -->
+        <!-- ========================= -->
+
+        <section class="content-section" id="schemes">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Government Schemes</h2>
+                    <p>Explore possible support and incentives</p>
+                </div>
+
+            </div>
+
+
+            <div class="scheme-grid" id="schemeGrid"></div>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- APPLICATIONS -->
+        <!-- ========================= -->
+
+        <section class="content-section" id="applications">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>My Applications</h2>
+                    <p>Track all your approval applications</p>
+                </div>
+
+                <button
+                    class="primary-button"
+                    onclick="navigateTo('approvals')"
+                >
+                    + New Application
+                </button>
+
+            </div>
+
+
+            <div
+                class="application-list"
+                id="applicationList"
+            ></div>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- INSPECTIONS -->
+        <!-- ========================= -->
+
+        <section class="content-section" id="inspections">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Inspections</h2>
+                    <p>View your scheduled inspections</p>
+                </div>
+
+            </div>
+
+
+            <div
+                class="inspection-list"
+                id="inspectionList"
+            ></div>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- GRIEVANCES -->
+        <!-- ========================= -->
+
+        <section class="content-section" id="grievances">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Grievances</h2>
+                    <p>Raise and track your complaints</p>
+                </div>
+
+                <button
+                    class="primary-button"
+                    onclick="openGrievanceModal()"
+                >
+                    + Raise Grievance
+                </button>
+
+            </div>
+
+
+            <div
+                class="grievance-list"
+                id="grievanceList"
+            ></div>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- SETTINGS -->
+        <!-- ========================= -->
+
+        <section class="content-section" id="settings">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Settings</h2>
+                    <p>Manage your business profile</p>
+                </div>
+
+            </div>
+
+
+            <div class="settings-card">
+
+                <div class="input-group">
+
+                    <label>Business Name</label>
+
+                    <input
+                        type="text"
+                        id="settingsBusinessName"
+                        placeholder="Business name"
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Business Type</label>
+
+                    <input
+                        type="text"
+                        id="settingsBusinessType"
+                        placeholder="Business type"
+                    >
+
+                </div>
+
+
+                <button
+                    class="primary-button"
+                    onclick="saveSettings()"
+                >
+                    Save Settings
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ========================= -->
+    <!-- APPLICATION MODAL -->
+    <!-- ========================= -->
+
+    <div
+        class="modal hidden"
+        id="applicationModal"
+    >
+
+        <div class="modal-box">
+
+            <button
+                class="modal-close"
+                onclick="closeApplicationModal()"
+            >
+                ×
+            </button>
+
+            <h2 id="applicationModalTitle">
+                Start Application
+            </h2>
+
+            <p id="applicationModalDescription"></p>
+
+
+            <form onsubmit="submitApplication(event)">
+
+                <input
+                    type="hidden"
+                    id="selectedApprovalId"
+                >
+
+
+                <div class="input-group">
+
+                    <label>Business Name</label>
+
+                    <input
+                        type="text"
+                        id="applicationBusinessName"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Business Type</label>
+
+                    <input
+                        type="text"
+                        id="applicationBusinessType"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Industry Type</label>
+
+                    <input
+                        type="text"
+                        id="industryType"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Business Location</label>
+
+                    <input
+                        type="text"
+                        id="businessLocation"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Investment</label>
+
+                    <input
+                        type="text"
+                        id="investment"
+                        placeholder="Example: ₹10 Lakhs"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Employee Count</label>
+
+                    <input
+                        type="number"
+                        id="employeeCount"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="required-documents">
+
+                    <h3>Required Documents</h3>
+
+                    <div id="requiredDocuments"></div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="primary-button full-button"
+                >
+                    Submit Application
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- DETAILS MODAL -->
+    <!-- ========================= -->
+
+    <div
+        class="modal hidden"
+        id="detailsModal"
+    >
+
+        <div class="modal-box">
+
+            <button
+                class="modal-close"
+                onclick="closeDetailsModal()"
+            >
+                ×
+            </button>
+
+            <div id="detailsContent"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- GRIEVANCE MODAL -->
+    <!-- ========================= -->
+
+    <div
+        class="modal hidden"
+        id="grievanceModal"
+    >
+
+        <div class="modal-box">
+
+            <button
+                class="modal-close"
+                onclick="closeGrievanceModal()"
+            >
+                ×
+            </button>
+
+            <h2>Raise Grievance</h2>
+
+            <p>
+                Submit your complaint or issue for review.
+            </p>
+
+
+            <form onsubmit="submitGrievance(event)">
+
+                <div class="input-group">
+
+                    <label>Subject</label>
+
+                    <input
+                        type="text"
+                        id="grievanceSubject"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Application</label>
+
+                    <select id="grievanceApplication">
+
+                        <option value="">
+                            General Issue
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Description</label>
+
+                    <textarea
+                        id="grievanceDescription"
+                        rows="5"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="primary-button full-button"
+                >
+                    Submit Grievance
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- TOAST -->
+
+    <div
+        class="toast"
+        id="toast"
+    ></div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
